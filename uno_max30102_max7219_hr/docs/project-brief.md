@@ -8,7 +8,7 @@ The design goal is to explore supervision that is less intrusive and more operat
 
 ## Current code prototype
 
-The files currently implement a narrower technical slice: an Arduino UNO reads IR samples from a fingertip MAX30102 sensor, estimates beat intervals, displays a symbolic heart-rate band on a MAX7219 matrix, and streams a small JSON record over USB serial to a local dashboard.
+The repository now has two prototype paths. V1 uses an Arduino UNO to read IR samples from a fingertip MAX30102 sensor, estimate beat intervals, display a symbolic heart-rate band on a MAX7219 matrix, and stream JSON over USB serial. V2 moves the same sensing concept to an ESP32-S3, separates sampling and networking with FreeRTOS tasks, and sends buffered HTTPS batches to the shared API.
 
 The garment, 24-hour wear, SpO₂, motion/activity sensing, wireless transport, native mobile app, staff accounts, and production data controls remain future design work. The local dashboard is a responsive web prototype; its sample fleet and review item are synthetic.
 
