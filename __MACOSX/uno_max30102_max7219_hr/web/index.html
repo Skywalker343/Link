@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#173f68" />
+    <meta name="description" content="CARE SIGNAL 人本化可穿戴监测系统本地原型看板" />
+    <title>CARE SIGNAL — 生理状态看板</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航" data-i18n-aria="primary_nav">
+        <a class="brand" href="#top" aria-label="CARE SIGNAL 首页">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span><strong>CARE SIGNAL</strong><small>HUMAN-CENTERED MONITORING</small></span>
+        </a>
+
+        <div class="side-label" data-i18n="workspace">WORKSPACE</div>
+        <nav class="navigation">
+          <a class="nav-item active" href="#overview"><span class="nav-icon" aria-hidden="true">◫</span><span data-i18n="nav_overview">总览</span></a>
+          <a class="nav-item" href="#devices"><span class="nav-icon" aria-hidden="true">◉</span><span data-i18n="nav_devices">设备节点</span></a>
+          <a class="nav-item" href="#review"><span class="nav-icon" aria-hidden="true">↗</span><span data-i18n="nav_review">人工复核</span><span id="nav-review-count" class="nav-count">0</span></a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="privacy-note">
+            <span class="privacy-icon" aria-hidden="true">◇</span>
+            <div><strong data-i18n="demo_mode">本地演示模式</strong><p data-i18n="demo_notice">请只使用模拟数据。此原型未设计为生产监控系统。</p></div>
+          </div>
+          <div class="profile-chip"><span class="profile-avatar">CS</span><span><strong data-i18n="demo_workspace">Demo workspace</strong><small data-i18n="profile_local">Local prototype</small></span><span class="profile-dots">···</span></div>
+        </div>
+      </aside>
+
+      <main id="top" class="main-content">
+        <header class="topbar">
+          <div class="breadcrumbs"><span data-i18n="workspace">工作区</span><span class="crumb-slash">/</span><strong data-i18n="breadcrumb_overview">监测总览</strong></div>
+          <div class="topbar-actions">
+            <div class="connection-pill"><span id="connection-dot" class="connection-dot"></span><span id="connection-label">连接本地服务</span></div>
+            <button id="language-button" class="button button-language" type="button" aria-label="切换语言" data-i18n-aria="toggle_language">EN</button>
+            <button id="demo-button" class="button button-secondary" type="button"><span aria-hidden="true">＋</span><span data-i18n="load_demo">加载演示数据</span></button>
+          </div>
+        </header>
+
+        <section id="overview" class="page-heading">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="hero-live-dot"></span> CARE SIGNAL <span class="eyebrow-line"></span> MONITORING OVERVIEW</div>
+            <h1 id="hero-title">让每一次信号<br /><span>都值得被看见。</span></h1>
+            <p data-i18n="hero_description">连接可穿戴设备与管理看板，以清晰、克制的方式呈现近期生理状态与设备信息。</p>
+            <div class="hero-tags"><span data-i18n="tag_care">人本关怀</span><span data-i18n="tag_realtime">实时感知</span><span data-i18n="tag_prototype">本地原型</span></div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-orbit orbit-large"></div>
+            <div class="hero-orbit orbit-small"></div>
+            <div class="hero-cross cross-one"></div>
+            <div class="hero-cross cross-two"></div>
+            <div class="hero-signal-card">
+              <div class="signal-card-top"><span><i class="signal-status-dot"></i><span data-i18n="signal_system">SIGNAL SYSTEM</span></span><span>02 / 02</span></div>
+              <div class="signal-graphic">
+                <span class="signal-line signal-line-one"></span>
+                <span class="signal-line signal-line-two"></span>
+                <svg viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 47H57L72 46L84 38L96 60L111 17L128 76L145 45L159 47H258" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="signal-glow"></span>
+              </div>
+              <div class="signal-card-bottom"><span data-i18n="physiological_data">PHYSIOLOGICAL DATA</span><span data-i18n="human_care">HUMAN-CENTERED CARE</span></div>
+            </div>
+            <div class="hero-orbit-label"><span class="orbit-label-dot"></span><span data-i18n="orbit_label">A MORE HUMAN WAY TO MONITOR</span></div>
+            <div class="hero-updated"><span class="updated-label" data-i18n="last_sync">最近同步</span><strong id="last-updated">等待本地服务</strong></div>
+          </div>
+        </section>
+
+        <section class="metric-grid" aria-label="概览数据" data-i18n-aria="overview_metrics">
+          <article class="metric-card metric-card-green">
+            <div class="metric-top"><span data-i18n="online_nodes">在线节点</span><span class="metric-icon green-icon" aria-hidden="true">⌁</span></div>
+            <div id="online-count" class="metric-value">—</div>
+            <div class="metric-foot"><span id="device-count">0</span> <span data-i18n="registered_nodes">个已登记节点</span></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span data-i18n="current_heart_rate">当前心率</span><span class="metric-icon heart-icon" aria-hidden="true">♡</span></div>
+            <div class="metric-value"><span id="current-bpm">—</span><small class="metric-unit">BPM</small></div>
+            <div id="current-device" class="metric-foot" data-i18n="select_device">选择一个设备节点</div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span data-i18n="review_pending">待人工复核</span><span class="metric-icon amber-icon" aria-hidden="true">↗</span></div>
+            <div id="review-count" class="metric-value">0</div>
+            <div class="metric-foot" data-i18n="demo_rule">展示规则仅用于流程演示</div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span data-i18n="total_readings">累计记录</span><span class="metric-icon" aria-hidden="true">▤</span></div>
+            <div id="reading-count" class="metric-value">0</div>
+            <div class="metric-foot" data-i18n="local_storage">本地 SQLite 演示存储</div>
+          </article>
+        </section>
+
+        <section class="content-grid">
+          <article class="panel trend-panel">
+            <div class="panel-heading">
+              <div><div class="panel-kicker">SIGNAL HISTORY</div><h2 data-i18n="heart_rate_trend">心率趋势</h2><p id="chart-subtitle">选择设备以查看近期读数</p></div>
+              <div class="period-select" aria-label="趋势时间范围" data-i18n-aria="chart_period"><span data-i18n="last_24">最近 24 条</span><span aria-hidden="true">⌄</span></div>
+            </div>
+            <div class="chart-wrap"><canvas id="trend-chart" aria-label="所选设备的心率趋势图" data-i18n-aria="chart_accessible_label" role="img"></canvas><div id="chart-empty" class="chart-empty"><span data-i18n="no_readings">暂无读数</span><span data-i18n="chart_empty_hint">连接硬件或加载演示数据后显示</span></div></div>
+            <div class="chart-legend"><span class="legend-dot"></span><span data-i18n="heart_rate_readings">心率读数</span><span class="chart-note" data-i18n="chart_note">缺失数据会保留为空，不做插值</span></div>
+          </article>
+
+          <article id="review" class="panel review-panel">
+            <div class="panel-heading compact-heading">
+              <div><div class="panel-kicker">HUMAN REVIEW</div><h2 data-i18n="review_queue">人工复核队列</h2></div>
+              <span id="review-badge" class="count-badge">0</span>
+            </div>
+            <div id="review-list" class="review-list"><div class="empty-review"><span class="empty-check">✓</span><strong data-i18n="no_review">当前没有待复核条目</strong><span data-i18n="review_hint">新读数会显示在这里</span></div></div>
+            <div class="review-footnote"><span aria-hidden="true">ⓘ</span><span data-i18n="review_disclaimer">提示仅供演示。请先核查佩戴、信号质量和设备状态。</span></div>
+          </article>
+        </section>
+
+        <section id="devices" class="panel device-panel">
+          <div class="panel-heading device-heading">
+            <div><div class="panel-kicker">CONNECTED DEVICES</div><h2 data-i18n="device_nodes">设备节点</h2><p data-i18n="device_hint">选择一行查看该节点的近期心率数据。</p></div>
+            <button id="refresh-button" class="icon-button" type="button" aria-label="刷新数据" title="刷新数据" data-i18n-title="refresh" data-i18n-aria="refresh">⟳</button>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th data-i18n="table_node">节点</th><th data-i18n="table_status">状态</th><th data-i18n="table_heart_rate">心率</th><th data-i18n="table_contact">手指接触</th><th data-i18n="table_source">数据来源</th><th data-i18n="table_received">最近接收</th><th></th></tr></thead>
+              <tbody id="device-rows"><tr><td colspan="7" class="table-empty" data-i18n="no_devices">尚无设备数据。加载演示数据，或连接 Arduino UNO / ESP32-S3。</td></tr></tbody>
+            </table>
+          </div>
+          <div class="table-footer"><span id="table-summary">0 个节点</span><span><i class="table-live-dot"></i><span data-i18n="stored_locally">数据保存在本机</span></span></div>
+        </section>
+
+        <footer class="page-footer"><span>CARE SIGNAL <span class="footer-separator">·</span> <span data-i18n="portfolio_project">作品集项目二</span></span><span data-i18n="footer_note">本地原型 · 模拟数据会明确标记</span></footer>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
